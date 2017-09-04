@@ -102,7 +102,7 @@ ENV BROWSER=android
 # 5555
 #   ADB connection port
 #===============
-EXPOSE 4723 6080 5555
+EXPOSE 4723 6080 5555 5678
 
 #===================
 # Run docker-appium
@@ -110,5 +110,10 @@ EXPOSE 4723 6080 5555
 COPY src /root/src
 COPY supervisord.conf /root/
 RUN chmod -R +x /root/src && chmod +x /root/supervisord.conf
+
+RUN npm install app-inspector -g
+COPY src/rc.xml .config/openbox/rc.xml
+RUN chmod +x /root/src/app-inspector.sh
+COPY ./src/apk/app-debug*.apk /usr/lib/node_modules/app-inspector/node_modules/uiautomatorwd/app/build/outputs/apk/
 
 CMD /usr/bin/supervisord --configuration supervisord.conf

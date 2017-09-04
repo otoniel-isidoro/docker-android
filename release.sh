@@ -1,7 +1,7 @@
 #!/bin/bash
 # Bash version should >= 4 to be able to run this script.
 
-IMAGE="butomo1989/docker-android"
+IMAGE="otonielisidoro/docker-android"
 
 if [ -z "$1" ]; then
     read -p "Task (test|build|push|all) : " TASK
