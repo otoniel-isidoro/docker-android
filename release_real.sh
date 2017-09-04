@@ -21,7 +21,7 @@ image_latest="$IMAGE-real-device:latest"
 function build() {
   echo "[BUILD] Image name: $image_version and $image_latest"
   echo "[BUILD] Dockerfile: $FILE_NAME"
-  docker build -t $image_version -f $FILE_NAME .
+  docker build -t $image_version -f $FILE_NAME . --force-rm
   docker tag $image_version $image_latest
 }
 

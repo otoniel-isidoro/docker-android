@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -z $REAL_DEVICE ]; then
+if [ -z "$REAL_DEVICE" ] || [ $REAL_DEVICE == "false" ]; then
   python3 -m src.app
 else
   CMD="appium"

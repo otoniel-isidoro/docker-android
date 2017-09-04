@@ -1,6 +1,6 @@
 FROM appium/appium:1.6.6-beta-p0
 
-LABEL maintainer "Budi Utomo <budi.ut.1989@gmail.com>"
+LABEL maintainer "Otoniel Isidoro <otoniel.isidoro@gmail.com>"
 
 #=============
 # Set WORKDIR
