@@ -9,5 +9,5 @@ else
     /root/generate_config.sh $NODE_CONFIG_JSON
     CMD+=" --nodeconfig $NODE_CONFIG_JSON"
   fi
-  $CMD
+  xterm -T "Appium" -n "Appium" -e "$CMD"
 fi
