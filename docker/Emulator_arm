@@ -1,6 +1,6 @@
 FROM appium/appium:1.6.6-beta-p0
 
-LABEL maintainer "Budi Utomo <budi.ut.1989@gmail.com>"
+LABEL maintainer "Otoniel Isidoro <otoniel.isidoro@gmail.com>"
 
 #=============
 # Set WORKDIR
@@ -29,6 +29,11 @@ WORKDIR /root
 #   Numpy, For faster performance: https://github.com/novnc/websockify/issues/77
 # net-tools
 #   Netstat
+#------------------
+#  Video Recording
+#------------------
+# ffmpeg
+#   Video recorder
 #==================
 RUN apt-get -qqy update && apt-get -qqy install --no-install-recommends \
     xterm \
@@ -39,6 +44,7 @@ RUN apt-get -qqy update && apt-get -qqy install --no-install-recommends \
     menu \
     python-numpy \
     net-tools \
+    ffmpeg \
  && rm -rf /var/lib/apt/lists/*
 
 #=======
@@ -100,6 +106,7 @@ ENV DISPLAY=:0 \
     LOCAL_PORT=5900 \
     TARGET_PORT=6080 \
     TIMEOUT=1 \
+    VIDEO_PATH=/tmp/video \
     LOG_PATH=/var/log/supervisor
 
 #===============
@@ -114,19 +121,23 @@ ENV DISPLAY=:0 \
 # 5555
 #   ADB connection port
 #===============
-EXPOSE 4723 6080 5554 5555
+EXPOSE 4723 6080 5555 5678
 
 #======================
 # Add Emulator Devices
 #======================
 COPY devices /root/devices
-
 #===================
 # Run docker-appium
 #===================
 COPY src /root/src
 COPY supervisord.conf /root/
 RUN chmod -R +x /root/src && chmod +x /root/supervisord.conf
+
+RUN npm install app-inspector -g
+COPY src/rc.xml .config/openbox/rc.xml
+RUN chmod +x /root/src/app-inspector.sh
+COPY ./src/apk/app-debug*.apk /usr/lib/node_modules/app-inspector/node_modules/uiautomatorwd/app/build/outputs/apk/
 
 HEALTHCHECK --interval=2s --timeout=40s --retries=1 \
     CMD adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done'

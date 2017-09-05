@@ -1,7 +1,7 @@
 #!/bin/bash
 # Bash version should >= 4 to be able to run this script.
 
-IMAGE="butomo1989/docker-android"
+IMAGE="otonielisidoro/docker-android"
 
 if [ -z "$1" ]; then
     read -p "Task (test|build|push|all) : " TASK
@@ -108,7 +108,7 @@ function test() {
         echo "----BUILD TEST IMAGE----"
         docker build -t $test_image --build-arg ANDROID_VERSION=$test_android_version \
         --build-arg API_LEVEL=$test_api_level --build-arg PROCESSOR=$test_processor --build-arg SYS_IMG=$test_sys_img \
-        --build-arg IMG_TYPE=$test_img_type --build-arg BROWSER=$test_browser -f docker/Emulator_x86 .
+        --build-arg IMG_TYPE=$test_img_type --build-arg BROWSER=$test_browser -f docker/Emulator_x86 . --force-rm
 
         echo "----REMOVE OLD TEST CONTAINER----"
         docker kill $test_container && docker rm $test_container
@@ -184,7 +184,7 @@ function build() {
             echo "[BUILD] Dockerfile: $FILE_NAME"
             docker build -t $image_version --build-arg ANDROID_VERSION=$v --build-arg API_LEVEL=$level \
             --build-arg PROCESSOR=$p --build-arg SYS_IMG=$sys_img --build-arg IMG_TYPE=$IMG_TYPE \
-            --build-arg BROWSER=$BROWSER -f $FILE_NAME .
+            --build-arg BROWSER=$BROWSER -f $FILE_NAME . --force-rm
             docker tag $image_version $image_latest
         done
     done
