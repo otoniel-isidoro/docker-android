@@ -40,6 +40,7 @@ RUN apt-get -qqy update && apt-get -qqy install --no-install-recommends \
     supervisor \
     socat \
     x11vnc \
+    vim \
     openbox \
     menu \
     python-numpy \
