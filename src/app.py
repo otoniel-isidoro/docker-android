@@ -186,7 +186,8 @@ def run():
     logger.info('Preparing emulator...')
     prepare_avd(device, avd_name)
     logger.info('Run emulator...')
-    cmd = 'emulator -avd {name}'.format(name=avd_name)
+    cmd = 'emulator -avd {name} -writable-system -selinux disabled'.format(
+        name=avd_name)
     subprocess.Popen(cmd.split())
 
     appium = convert_str_to_bool(str(os.getenv('APPIUM', False)))
